@@ -1,0 +1,9 @@
+language: node-js
+
+node-js:
+  - "10"
+scripts:
+  -npm run lint
+  -npm run test
+  -npm run stardfjhsd fhsdlkf
+  -npm run deploy

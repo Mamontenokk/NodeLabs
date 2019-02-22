@@ -1,0 +1,25 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint":"eslint",
+    "deploy":"node deploy.js",
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mamontenokk/NodeLabs.git"
+  },
+  "author": "Vladyslav Shemchuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mamontenokk/NodeLabs/issues"
+  },
+  "homepage": "https://github.com/Mamontenokk/NodeLabs#readme",
+  "devDependencies": {
+    "eslint": "^5.14.1"
+  }
+}
