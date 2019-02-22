@@ -1,7 +1,8 @@
-language: node-js
-
-node-js:
+language: node_js
+node_js:
   - "10"
+before_script:
+  -npm ci
 scripts:
   -npm run lint
   -npm run test
