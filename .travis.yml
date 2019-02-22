@@ -5,5 +5,5 @@ node-js:
 scripts:
   -npm run lint
   -npm run test
-  -npm run stardfjhsd fhsdlkf
+  -npm run build
   -npm run deploy
