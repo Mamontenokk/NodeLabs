@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint",
-    "deploy": "echo $TRAVIS_BRANCH",
+    "deploy": "echo $TRAVIS_BRANCH&& now --token=$SECRET_KEY",
     "build": "echo builded",
     "test": "echo \"Error: no test specified\""
   },
