@@ -8,4 +8,4 @@ script:
   - npm run test
   - npm run build
   - now --token=$SECRET_KEY 
-  - now alias NodeLabs-$TRAVIS_BRANCH.now.sh
+  - now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh
