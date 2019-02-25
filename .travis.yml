@@ -7,4 +7,4 @@ script:
   - npm run lint
   - npm run test
   - npm run build 
-  - now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh && now --token=$SECRET_KEY rm nodelabs --safe --yes
+  - now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh && now --token=$SECRET_KEY ls
