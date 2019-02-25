@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint",
-    "deploy": "echo $TRAVIS_BRANCH&& now --token=$SECRET_KEY",
+    "deploy": "echo $TRAVIS_BRANCH && now --token=$SECRET_KEY",
     "build": "echo builded",
-    "test": "echo \"Error: no test specified\""
+    "test": "echo \"Error: no test specified\"" 
   },
   "repository": {
     "type": "git",
