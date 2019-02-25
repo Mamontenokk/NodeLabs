@@ -1,8 +1,9 @@
 {
 	"name": "NodeLabs",
-	"alias": [""],
+	"alias": ["nodelabs-$TRAVIS_BRANCH"],
 	"env": {
 		"MY_KEY": "",
-		"SECRET": "hdYbKH9kH1jWXcuDbYGRBtQ5"
-	}
+		"SECRET": "4554"
+	},
+	"version":2
 }
