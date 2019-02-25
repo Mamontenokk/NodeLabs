@@ -7,4 +7,4 @@ script:
   - npm run lint
   - npm run test
   - npm run build
-  - npm run deploy
+  - npm now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh
