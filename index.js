@@ -10,8 +10,11 @@ const http = require('http');
 
 
 const server = http.createServer((request, response) =>{
-	console.log(request.url.split(':')[0]);
+	console.log(request.url);
+
 	if(request.url.split(':')[0]==='http') {
+		response.addTrailers({'Dadadu': 'asdjasdj'})
+		response.setHeader('asdasd', 'qasdasdasd');
 		http.get(request.url, (resp) =>{
 		resp.pipe(response);
 		}).on('error', (err)=>{
@@ -19,7 +22,6 @@ const server = http.createServer((request, response) =>{
 		});
 	}
 	if(request.url.split(':')[0]==='https') {
-		console.log(1);
 		https.get(request.url, (resp) => {
 		resp.pipe(response);
 		}).on('error', (err)=>{
