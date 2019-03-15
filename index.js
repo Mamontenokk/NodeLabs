@@ -2,7 +2,6 @@
 
 const https = require('https');
 const http = require('http');
-const fs = require('fs');
 
 //const options = {
 //	key: fs.readFileSync('bad.key'),
@@ -27,7 +26,6 @@ const server = http.createServer((request, response) =>{
 			console.log('Error' + err.message);
 		});
 	}
-	//response.end('hello world\n');
 });
 
 server.listen(5001);
