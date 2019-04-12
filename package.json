@@ -8,7 +8,7 @@
     "lint": "eslint",
     "deploy": "now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh",
     "build": "echo builded",
-    "test": "echo \"Error: no test specified\"" 
+    "test": "echo \"Error: no test specified\""
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
   "homepage": "https://github.com/Mamontenokk/NodeLabs#readme",
   "devDependencies": {
     "eslint": "^5.14.1",
-    "now": "^14.0.0"
+    "jsdom": "^14.0.0",
+    "now": "^14.0.0",
+    "telegraf": "^3.28.0"
   },
   "dependencies": {}
 }

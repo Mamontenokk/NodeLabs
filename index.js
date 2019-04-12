@@ -5,48 +5,51 @@ const net = require('net');
 const url = require('url');
 
 
-const server = http.createServer((request, response) =>{
-	console.log(request.url);
-	//parse URL
-	const ReqUrl = request.url;
-	const Result = ReqUrl.includes('//') ?
-		url.parse(ReqUrl) : url.parse('//' + ReqUrl, false, true);
+const server = http.createServer((clientRequest, clientResponse) =>{
 
-	response.writeHead(200, {'Content-Type': 'text/html'});
-	//Request to HTTP
-	if(Result.protocol==='http:') {
-		http.get(request.url, (resp) =>{
-		resp.pipe(response);
-		//error handling
-		}).on('error', (err)=>{
-			console.log('Error' + err.message);
-		});
-	}
+	const proxy = http.request(
+		clientRequest.url,
+		{
+			headers: clientRequest.headers,
+			method: clientRequest.method
+		}
+	);
+
+	proxy.on('response', (serverResponse) =>{
+		clientResponse.writeHead(
+			serverResponse.statusCode,
+			serverResponse.headers
+		);
+		serverResponse.pipe(clientResponse, {end: true});
+	});
+
+	clientRequest.pipe(proxy, {end:true});
 
 });
 
 
 server.on('connect', (request, socket) =>{
 	//parse URL
-	const ReqUrl = request.url;
-	const Result = ReqUrl.includes('//') ?
-		url.parse(ReqUrl) : url.parse('//' + ReqUrl, false, true);
+	const ReqUrl = url.parse(`https://${request.url}`);
 
-	const Connection = net.connect(Result.port || 443, Result.hostname, () => {
+	const Connection = net.connect(ReqUrl.port, ReqUrl.hostname, () => {
 		// tell the client that the connection is established
 		socket.write('HTTP/' + request.httpVersion + ' 200 OK\r\n\r\n', 'UTF-8', () => {
 			//error handling
 			Connection.on('error', (err) => {
 				console.log('Error' + err.message);
 			});
+
 			// creating pipes in both ends
 			Connection.pipe(socket);
 			socket.pipe(Connection);
 		});
+
 		//error handling
 		socket.on('error', (err) => {
 			console.log('Error' + err.message);
 		});
 	});
 });
+
 server.listen(5001);
