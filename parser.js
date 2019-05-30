@@ -118,12 +118,7 @@ const getGroupUrl = function getGroupUrl(url, group) {
                 url: url,
                 form: form
             }, (err, res)=>{
-                //if(res.headers.location!==undefined) {
-                    resolve(`http://rozklad.kpi.ua${res.headers.location}`)
-               // }
-/*                else{
-                    resolve("Error")
-                }*/
+                resolve(`http://rozklad.kpi.ua${res.headers.location}`)
             });
         });
     });
@@ -161,6 +156,8 @@ const parse = function parse(group){
 };
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
+module.exports = bot;
+
 bot.start((ctx) => ctx.reply('Welcome'));
 bot.help((ctx) => ctx.reply('Print in your group name to get your schedule'));
 bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.text)
