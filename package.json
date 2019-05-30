@@ -21,12 +21,11 @@
   },
   "homepage": "https://github.com/Mamontenokk/NodeLabs#readme",
   "devDependencies": {
-    "eslint": "^5.14.1",
+    "eslint": "^5.14.1"
+  },
+  "dependencies": {
     "jsdom": "^14.0.0",
     "now": "^14.0.0",
     "telegraf": "^3.28.0"
-  },
-  "dependencies": {
-    "xmlhttprequest": "^1.8.0"
   }
 }
