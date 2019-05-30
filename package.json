@@ -26,5 +26,7 @@
     "now": "^14.0.0",
     "telegraf": "^3.28.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  }
 }
