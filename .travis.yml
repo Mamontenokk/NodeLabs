@@ -8,5 +8,7 @@ before_script:
 script:
   - npm run lint
   - npm run test
-  - npm run build 
+  - npm run build
+  - echo $SECRET_KEY
+  - echo $BOT_TOKEN
   - now alias --token=$SECRET_KEY -V 2 NodeLabs-$TRAVIS_BRANCH
