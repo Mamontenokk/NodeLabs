@@ -2,9 +2,9 @@
   "name": "package",
   "version": "1.0.0",
   "description": "",
-  "main": "parser.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node parser.js",
+    "start": "node index.js",
     "lint": "eslint",
     "deploy": "now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh",
     "build": "echo builded",
@@ -24,8 +24,9 @@
     "eslint": "^5.14.1"
   },
   "dependencies": {
-    "jsdom": "^14.0.0",
-    "now": "^14.0.0",
-    "telegraf": "^3.28.0"
+    "jsdom": "^15.1.1",
+    "now": "^15.3.0",
+    "telegraf": "^3.29.0",
+    "xmlhttprequest": "^1.8.0"
   }
 }
