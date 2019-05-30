@@ -2,9 +2,8 @@
 	"name": "NodeLabs-KPI-schedule-bot",
 	"version": 2 ,
 	"builds": [{ "src": "parser.js", "use": "@now/node" }],
-	"build:": {
-		"env": {
-			"BOT_TOKEN": "@bot_token"
-		}
+	"env": {
+		"BOT_TOKEN": "@bot_token"
 	}
+	
 }
