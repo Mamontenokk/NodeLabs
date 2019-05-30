@@ -156,7 +156,7 @@ const parse = function parse(group){
 };
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-module.exports = bot;
+console.log(process.env.BOT_TOKEN);
 
 bot.start((ctx) => ctx.reply('Welcome'));
 bot.help((ctx) => ctx.reply('Print in your group name to get your schedule'));
