@@ -12,5 +12,7 @@ bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.
     .catch(()=>ctx.reply('Ooopsie. Someone made an ooopsie')));
 bot.hears('hi', (ctx) => ctx.reply('HONOR TO UKRAINE'));
 
-module.exports = {bot};
-    
+
+bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh');
+
+module.exports = bot.webhookCallback('/');

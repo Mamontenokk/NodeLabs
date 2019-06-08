@@ -1,7 +1,7 @@
 {
 	"name": "NodeLabs-KPI-schedule-bot",
 	"version": 2 ,
-	"builds": [{ "src": "Main.js", "use": "@now/node", "config": { "maxLambdaSize": "45mb" }}],
+	"builds": [{ "src": "Bot.js", "use": "@now/node", "config": { "maxLambdaSize": "45mb" }}],
 	"routes": [{
 		"headers": {
 			"Access-Control-Allow-Origin": "*",
@@ -9,6 +9,6 @@
 			"Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
 		},
 		"src": "/.*",
-		"dest": "/Main.js"
+		"dest": "/Bot.js"
 	}]
 }
