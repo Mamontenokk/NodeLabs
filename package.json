@@ -25,7 +25,9 @@
     "now": "^15.4.0"
   },
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "canvas": "^2.5.0",
+    "encoding": "^0.1.12",
     "jsdom": "^15.1.1",
     "telegraf": "^3.29.0",
     "xmlhttprequest": "^1.8.0"
