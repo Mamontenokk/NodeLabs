@@ -1,7 +1,7 @@
 'use static'
 
 const Telegraf  = require('telegraf');
-const parse = require('./parser.js')
+const {parse} = require('./parser.js')
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -11,7 +11,6 @@ bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.
     .then(result=>{ctx.reply(result)})
     .catch(()=>ctx.reply('Ooopsie. Someone made an ooopsie')));
 bot.hears('hi', (ctx) => ctx.reply('HONOR TO UKRAINE'));
-
 
 bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh');
 
