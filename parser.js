@@ -1,18 +1,12 @@
 'use strict';
 
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+const { JSDOM } = require('jsdom');
 const request = require('request');
-const http = require('http');
-const https = require('https');
-const Telegraf = require('telegraf');
 
 const url = 'http://rozklad.kpi.ua/Schedules/ScheduleGroupSelection.aspx';
 
 function getWeekData (id, document) {
-    if(document.getElementById(id) === null){
-        throw "Error";
-    } else if (document.getElementById(id).getElementsByTagName('tr') === null){
+    if(document.getElementById(id) === null || document.getElementById(id).getElementsByTagName('tr') === null){
         throw "Error";
     }
     return document.getElementById(id).getElementsByTagName('tr');
@@ -26,9 +20,8 @@ function getRowData (document) {
        return document.getElementsByTagName('td');
 }
 
-function parseText(data) {
-    return new Promise(resolve=>{
-        const dom = new JSDOM(data);
+function parseText(url) {
+    return JSDOM.fromURL(url).then(dom => {
         const document = dom.window.document;
 
         const first = getWeekData('ctl00_MainContent_FirstScheduleTable', document);
@@ -47,8 +40,7 @@ function parseText(data) {
         let secondWeek = {};
 
         for(let row in first){
-            if(row>0 && row<6) {
-
+            if(row>0) {
                 const firstRow = getRowData(first[row]);
                 const secondRow = getRowData(second[row]);
 
@@ -63,6 +55,7 @@ function parseText(data) {
                         const secondLength = secondRow[day].getElementsByTagName('a').length;
 
                         temp.number = row;
+                        console.log(firstRow[day].getElementsByTagName('a')[0]);
                         temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
                         temp.teacher = firstRow[day].getElementsByTagName('a')[1].innerHTML;
                         temp.classroom = firstRow[day].getElementsByTagName('a')[firstLength-1].innerHTML;
@@ -81,7 +74,9 @@ function parseText(data) {
         }
         const result = '=================\nFIRST WEEK\n=================\n\n' +formatData(firstWeek)+
             '\n=================\nSECOND WEEK\n=================\n\n' + formatData(secondWeek);
-        resolve(result);
+        return new Promise(resolve=>{
+            resolve(result);
+        })
     })
 }
 
@@ -103,7 +98,7 @@ const getGroupUrl = function getGroupUrl(url, group) {
     return JSDOM.fromURL(url).then(dom => {
         const document = dom.window.document;
         const formElement = document.getElementById('aspnetForm');
-        const hiddenInputs = formElement.querySelectorAll('input[type="hidden"');
+        const hiddenInputs = formElement.querySelectorAll('input[type="hidden"]');
 
         const form = {
             ctl00$MainContent$ctl00$txtboxGroup: group,
@@ -111,7 +106,9 @@ const getGroupUrl = function getGroupUrl(url, group) {
         };
 
         [...hiddenInputs].forEach(elem =>{
-            form[elem.name] = elem.value;
+            if(elem.value !== null) {
+                form[elem.name] = elem.value;
+            }
         });
 
         return new Promise(resolve=>{
@@ -125,49 +122,13 @@ const getGroupUrl = function getGroupUrl(url, group) {
     });
 };
 
-function httpGet(url){
-    return new Promise((resolve, reject)=>{
-        let data = '';
-        http.get(url, (res) =>{
-            res.on('data', (chunk)=>{
-                data+=chunk;
-            });
-            res.on('end', ()=>{
-                resolve(data);
-            });
-        }).on('error', (err)=>{
-            console.log('Error', err);
-            reject("Error");
-        });
-    })
-}
-
 const parse = function parse(group){
     return getGroupUrl(url, group).then(groupUrl=>{
-            return httpGet(groupUrl)
-        },
-        error=>{
-            throw (error)
-        }).then(result=> {
-            return parseText(result)
+            return parseText(groupUrl)
         },
         error=>{
             throw (error)
         })
 };
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
-
-bot.start((ctx) => ctx.reply('Welcome'));
-bot.help((ctx) => ctx.reply('Print in your group name to get your schedule'));
-bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.text)
-    .then(result=>{ctx.reply(result)})
-    .catch(()=>ctx.reply('Ooopsie. Someone made an ooopsie')));
-bot.hears('hi', (ctx) => ctx.reply('HONOR TO UKRAINE'));
-
-bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh');
-
-module.exports = bot.webhookCallback('/');
-
-/*http.createServer(bot.webhookCallback('/secret-path'))
-    .listen(80);*/
+module.exports = {parse};
