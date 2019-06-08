@@ -4,6 +4,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const request = require('request');
 const http = require('http');
+const https = require('https');
 const Telegraf = require('telegraf');
 
 const url = 'http://rozklad.kpi.ua/Schedules/ScheduleGroupSelection.aspx';
@@ -156,7 +157,6 @@ const parse = function parse(group){
 };
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-console.log(process.env.BOT_TOKEN);
 
 bot.start((ctx) => ctx.reply('Welcome'));
 bot.help((ctx) => ctx.reply('Print in your group name to get your schedule'));
@@ -164,4 +164,8 @@ bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.
     .then(result=>{ctx.reply(result)})
     .catch(()=>ctx.reply('Ooopsie. Someone made an ooopsie')));
 bot.hears('hi', (ctx) => ctx.reply('HONOR TO UKRAINE'));
-bot.launch();
+
+bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh/secret-path');
+
+http.createServer(bot.webhookCallback('/secret-path'))
+    .listen(80);
