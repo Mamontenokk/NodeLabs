@@ -165,7 +165,9 @@ bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.
     .catch(()=>ctx.reply('Ooopsie. Someone made an ooopsie')));
 bot.hears('hi', (ctx) => ctx.reply('HONOR TO UKRAINE'));
 
-bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh/secret-path');
+bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh');
 
-http.createServer(bot.webhookCallback('/secret-path'))
-    .listen(80);
+module.exports = bot.webhookCallback('/');
+
+/*http.createServer(bot.webhookCallback('/secret-path'))
+    .listen(80);*/
