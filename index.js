@@ -1,55 +1,16 @@
-'use strict';
+'use static';
 
-const http = require('http');
-const net = require('net');
-const url = require('url');
+const Telegraf  = require('telegraf');
+const {parse} = require('./parser.js');
 
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
-const server = http.createServer((clientRequest, clientResponse) =>{
+bot.start((ctx) => ctx.reply('Welcome'));
+bot.help((ctx) => ctx.reply('Print in your group name to get your schedule'));
+bot.hears(/^[А-ЯІа-яі]{2}-[1-9а-яі]{2,5}$/, (ctx) => parse(ctx.message.text)
+    .then(result=>{ctx.reply(result)})
+    .catch(()=>ctx.reply('Ooopsie. Someone made an ooopsie')));
 
-	const proxy = http.request(
-		clientRequest.url,
-		{
-			headers: clientRequest.headers,
-			method: clientRequest.method
-		}
-	);
+bot.telegram.setWebhook('https://nodelabs-kpi-schedule-bot.mamontenok.now.sh');
 
-	proxy.on('response', (serverResponse) =>{
-		clientResponse.writeHead(
-			serverResponse.statusCode,
-			serverResponse.headers
-		);
-		serverResponse.pipe(clientResponse, {end: true});
-	});
-
-	clientRequest.pipe(proxy, {end:true});
-
-});
-
-
-server.on('connect', (request, socket) =>{
-	//parse URL
-	const ReqUrl = url.parse(`https://${request.url}`);
-
-	const Connection = net.connect(ReqUrl.port, ReqUrl.hostname, () => {
-		// tell the client that the connection is established
-		socket.write('HTTP/' + request.httpVersion + ' 200 OK\r\n\r\n', 'UTF-8', () => {
-			//error handling
-			Connection.on('error', (err) => {
-				console.log('Error' + err.message);
-			});
-
-			// creating pipes in both ends
-			Connection.pipe(socket);
-			socket.pipe(Connection);
-		});
-
-		//error handling
-		socket.on('error', (err) => {
-			console.log('Error' + err.message);
-		});
-	});
-});
-
-server.listen(5001);
+module.exports = bot.webhookCallback('/');

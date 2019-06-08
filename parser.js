@@ -21,11 +21,10 @@ function getRowData (document) {
 
 function parseText(url) {
     return JSDOM.fromURL(url).then(dom => {
-        const document = dom.window.document;
 
+        const document = dom.window.document;
         const first = getWeekData('ctl00_MainContent_FirstScheduleTable', document);
         const second = getWeekData('ctl00_MainContent_SecondScheduleTable', document);
-
         const week = {
             1: 'monday',
             2: 'tuesday',
@@ -37,13 +36,12 @@ function parseText(url) {
 
         let firstWeek = {};
         let secondWeek = {};
-
-        for(let row in first){
+        Object.keys(first).forEach(row=>{
             if(row>0) {
                 const firstRow = getRowData(first[row]);
                 const secondRow = getRowData(second[row]);
 
-                for (const day of Object.keys(week)){
+                Object.keys(week).forEach(day=>{
                     if (firstWeek[week[day]] === undefined) {
                         firstWeek[week[day]] = [];
                         secondWeek[week[day]] = [];
@@ -67,12 +65,12 @@ function parseText(url) {
                     catch(err){
                         //
                     }
-                }
+                });
             }
-        }
+        });
         const result = '=================\nFIRST WEEK\n=================\n\n' +formatData(firstWeek)+
             '\n=================\nSECOND WEEK\n=================\n\n' + formatData(secondWeek);
-        return new Promise(resolve=>{
+        return new Promise(resolve => {
             resolve(result);
         })
     })
@@ -80,15 +78,14 @@ function parseText(url) {
 
 function formatData(data) {
     let result = '';
-    const days = Object.keys(data);
-    for (const day of days){
+    Object.keys(data).forEach(day=>{
         result += '--------------------\n' + day +'\n--------------------\n\n';
-        for(const lesson in data[day]){
+        Object.keys(data[day]).forEach(lesson=>{
             result += data[day][lesson].number + '.' + data[day][lesson].name + '\n';
             result += 'Teacher: ' + data[day][lesson].teacher + '\n';
             result += 'Classroom: ' + data[day][lesson].classroom + '\n\n' ;
-        }
-    }
+        });
+    });
     return result;
 }
 
@@ -103,11 +100,7 @@ const getGroupUrl = function getGroupUrl(url, group) {
             ctl00$MainContent$ctl00$btnShowSchedule: "Розклад занять"
         };
 
-        [...hiddenInputs].forEach(elem =>{
-            if(elem.value !== null) {
-                form[elem.name] = elem.value;
-            }
-        });
+        [...hiddenInputs].forEach(elem =>{ elem.value ? form[elem.name] = elem.value : console.log("Error")});
 
         return new Promise(resolve=>{
             request.post({
