@@ -9,4 +9,4 @@ script:
   - npm run lint
   - npm run test
   - npm run build
-  - now alias --token=$SECRET_KEY -V 2 NodeLabs-$TRAVIS_BRANCH
+  - now alias --token=$SECRET_KEY -V 2 NodeLabs-$TRAVIS_BRANCH -e BOT_TOKEN = $BOT_TOKEN
