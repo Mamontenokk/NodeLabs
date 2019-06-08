@@ -13,8 +13,7 @@ function getWeekData (id, document) {
 }
 
 function getRowData (document) {
-       if (document.getElementsByTagName('td') === null)
-       {
+       if (document.getElementsByTagName('td') === null) {
            throw "Error";
        }
        return document.getElementsByTagName('td');
@@ -55,7 +54,6 @@ function parseText(url) {
                         const secondLength = secondRow[day].getElementsByTagName('a').length;
 
                         temp.number = row;
-                        console.log(firstRow[day].getElementsByTagName('a')[0]);
                         temp.name = firstRow[day].getElementsByTagName('a')[0].innerHTML;
                         temp.teacher = firstRow[day].getElementsByTagName('a')[1].innerHTML;
                         temp.classroom = firstRow[day].getElementsByTagName('a')[firstLength-1].innerHTML;
