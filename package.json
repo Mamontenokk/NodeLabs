@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node parser.js",
     "lint": "eslint",
     "deploy": "now alias --token=$SECRET_KEY NodeLabs-$TRAVIS_BRANCH.now.sh",
-    "build": "echo builded",
-    "now-build": "node parser.js",
+    "build": "node parser.js",
     "test": "echo \"Error: no test specified\""
   },
   "repository": {
