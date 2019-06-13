@@ -18,8 +18,8 @@ const labels = {
 function parse(fromStation, toStation){
     return getUrl(fromStation, toStation).then(url=>{
         return JSDOM.fromURL(url).then(dom=>{
-            const document = dom.window.document;
-            const rows = document.getElementById('cpn-timetable').querySelector('tbody').querySelectorAll('tr');
+            const doc = dom.window.document;
+            const rows = doc.getElementById('cpn-timetable').querySelector('tbody').querySelectorAll('tr');
             const schedule = [];
             rows.forEach(row=>{
                 schedule.push(getRowData(row))
@@ -65,6 +65,5 @@ const getSchedule = function getSchedule(inputMessage){ // inputMessage is a str
         })
     })
 };
-
 
 module.exports = { getSchedule };
