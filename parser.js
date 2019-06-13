@@ -48,7 +48,7 @@ function formatSchedule(schedule){
             scheduleArray.push(resultString);
             resultString=''
         }
-        resultString += `\n${index+1}.\n`;
+        resultString += `\n\n`;
         Object.keys(train).forEach(key=>{
             resultString += `${key} : ${train[key]} \n`
         })
