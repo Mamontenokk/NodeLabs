@@ -15,19 +15,11 @@ const labels = {
     8: 'Departure time from arrival station'
 };
 
-function getRows(doc, id){
-    if(doc.getElementById(id) ===null || doc.getElementById(id).querySelector('tbody') === null
-        || doc.getElementById(id).querySelector('tbody').querySelectorAll('tr') === null){
-        throw "Error";
-    }
-    return document.getElementById(id).querySelector('tbody').querySelectorAll('tr')
-}
-
 function parse(fromStation, toStation){
     return getUrl(fromStation, toStation).then(url=>{
         return JSDOM.fromURL(url).then(dom=>{
             const document = dom.window.document;
-            const rows = getRows(document, 'cpn-timetable')
+            const rows = document.getElementById('cpn-timetable').querySelector('tbody').querySelectorAll('tr');
             const schedule = [];
             rows.forEach(row=>{
                 schedule.push(getRowData(row))
@@ -42,7 +34,7 @@ function parse(fromStation, toStation){
 function getRowData(row){
     const object = {};
     row.querySelectorAll('td').forEach((elem, index)=>{
-        elem.textContent? object[labels[index]] = elem.textContent : console.log('Bad element');
+        object[labels[index]] = elem.textContent;
     });
     return object
 }
@@ -73,5 +65,6 @@ const getSchedule = function getSchedule(inputMessage){ // inputMessage is a str
         })
     })
 };
+
 
 module.exports = { getSchedule };
