@@ -16,8 +16,8 @@ const labels = {
 };
 
 function getRows(doc, id){
-    if(!doc.getElementById(id) || !doc.getElementById(id).querySelector('tbody')
-        || !doc.getElementById(id).querySelector('tbody').querySelectorAll('tr')){
+    if(doc.getElementById(id) ===null || doc.getElementById(id).querySelector('tbody') === null
+        || doc.getElementById(id).querySelector('tbody').querySelectorAll('tr') === null){
         throw "Error";
     }
     return document.getElementById(id).querySelector('tbody').querySelectorAll('tr')
