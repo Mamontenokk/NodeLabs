@@ -1,5 +1,5 @@
 {
-	"name": "NodeLabs-KPI-schedule-bot",
+	"name": "NodeLabs-KPI-Exam",
 	"version": 2 ,
 	"builds": [{ "src": "index.js", "use": "@now/node", "config": { "maxLambdaSize": "45mb" }}],
 	"routes": [{
