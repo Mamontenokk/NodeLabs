@@ -19,7 +19,7 @@ function getStationsValues(startStation, endStation){
 }
 
 function getStations(name) {
-    return new Promise(resolve=> {
+    return new Promise((resolve,reject)=> {
         https.get(`https://www.uz.gov.ua/passengers/timetable/suggest-station/?q=${querystring.escape(name)}`, resp => {
             let data = '';
             resp.on('data', chunk => {
@@ -28,25 +28,17 @@ function getStations(name) {
             resp.on('end', () => {
                 resolve(data);
             });
+            resp.on('error', error=>{
+                reject(error)
+            })
         });
     });
 }
-
-/*function formatStation(stations){
-    const stationsArray = stations.split(', ');
-    const formattedStations = {};
-
-    stationsArray.forEach( elem => {
-        formattedStations[elem.split('~')[0].replace('"','')] = elem.split('~')[1].replace(/\D/g,'');
-    });
-    return formattedStations;
-}*/
 
 function getFirstStationValue(stations){
     const firstStation = stations.split(', ')[0];
     return firstStation.split('~')[1].replace('"','').replace(' ]','');
 }
-
 
 const getUrl = function getUrl(fromStation, toStation){
     return getStationsValues(fromStation, toStation).then(result=>{
