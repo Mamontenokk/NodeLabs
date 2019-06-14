@@ -6,13 +6,13 @@ const https = require('https');
 function getStationsValues(startStation, endStation){
     return getStations(startStation)
         .then(result=>{
-            return getFirstStationValue(result);
+            return getFirstStationValue(result, startStation);
         }).then(fromStation => {
 
             return getStations(endStation)
                 .then(result=>{
                     return new Promise(resolve=> {
-                        resolve([fromStation, getFirstStationValue(result)]);
+                        resolve([fromStation, getFirstStationValue(result, endStation)]);
                     })
                 })
         })
@@ -35,9 +35,13 @@ function getStations(name) {
     });
 }
 
-function getFirstStationValue(stations){
-    const firstStation = stations.split(', ')[0];
-    return firstStation.split('~')[1].replace('"','').replace(' ]','');
+function getFirstStationValue(stations, station){
+    const StationsArray = stations.split(', ');
+    StationsArray.forEach(stationElem=>{
+        if(stationElem.includes(station)){
+            return stationElem.split('~')[1].replace('"','').replace(' ]','');
+        }
+    })
 }
 
 const getUrl = function getUrl(fromStation, toStation){
