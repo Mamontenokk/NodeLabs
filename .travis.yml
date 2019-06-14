@@ -9,4 +9,4 @@ script:
   - npm run lint
   - npm run test
   - npm run build
-  - now --token=$SECRET_KEY -e BOT_TOKEN=$TRAINS_BOT
+  - now --token=$SECRET_KEY -e BOT_TOKEN=$BOT_TOKEN

@@ -53,6 +53,9 @@ function formatSchedule(schedule){
         })
     });
     scheduleArray.push(resultString);
+    if(scheduleArray.length===0){
+        scheduleArray.push('Schedule is empty')
+    }
     return scheduleArray;
 }
 
